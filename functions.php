@@ -9,8 +9,6 @@ function check_login($con){
       return $user_data;
     }
   }
-  header("Location: index.php");
-  die;
 }
 
 function random_num($length){

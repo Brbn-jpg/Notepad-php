@@ -1,26 +1,47 @@
 <?php
 session_start();
+include("connection.php");
 
-  include("connection.php");
-  include("functions.php");
+$login_error = $password_error = $password_mismatch_error = $registration_success = $general_error = false;
 
-  if($_SERVER['REQUEST_METHOD'] == "POST"){
-    //stmh was posted
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_name = $_POST['login'];
     $password = $_POST['password'];
-    // $repeatedPassword = $_POST['repeatedPassword'];
-    
-    $user_id = random_num(20);
-    if(!empty($user_name) && !empty($password) && !empty($repeatedPassword) && !is_numeric($user_name)){
-      echo "siema";
-      $query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
-      mysqli_query($con, $query);
-      header("Location: login.php");
-      exit();
+    $repeatedPassword = $_POST['repeatedPassword'] ?? null;
+
+    if (empty($user_name) || empty($password) || empty($repeatedPassword)) {
+        $general_error = true;
     }
-    
-  }
+
+    if ($password !== $repeatedPassword) {
+        $password_mismatch_error = true;
+    }
+
+    if (!$general_error && !$password_mismatch_error) {
+        $stmt = $con->prepare("SELECT * FROM users WHERE user_name = ?");
+        $stmt->bind_param("s", $user_name);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result && mysqli_num_rows($result) > 0) {
+            $login_error = true;
+        } else {
+            $user_id = uniqid('', true); 
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT); 
+
+            $stmt = $con->prepare("INSERT INTO users (user_id, user_name, password) VALUES (?, ?, ?)");
+            $stmt->bind_param("sss", $user_id, $user_name, $hashed_password);
+
+            if ($stmt->execute()) {
+                $registration_success = true;
+            } else {
+                $general_error = true;
+            }
+        }
+    }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <?php include 'modules/header.php'; ?>
@@ -29,7 +50,7 @@ session_start();
     <hr />
     <article>
       <h2>Rejestracja</h2>
-      <form action = "register.php" method="POST">
+      <form method="POST">
         <label for="login">Login</label>
         <input
           type="text"
@@ -38,15 +59,10 @@ session_start();
           required
           placeholder="np. Mariusz12"
         />
-        <!-- <label for="email">Email</label>
-        <input
-          type="text"
-          name="email"
-          class="email"
-          required
-          placeholder="np. Mariusz12@gmail.com"
-        /> -->
-        
+        <?php if ($login_error): ?>
+          <p class="error">Użytkownik o takim loginie już istnieje.</p>
+        <?php endif; ?>
+
         <label for="password">Hasło</label>
         <input
         type="password"
@@ -55,7 +71,7 @@ session_start();
         required
         placeholder="Wprowadź hasło"
         />
-    
+        
         <label for="repeatedPassword">Powtórz hasło</label>
         <input
         type="password"
@@ -64,18 +80,18 @@ session_start();
         required
         placeholder="Powtórz hasło"
         />
+        <?php if ($password_mismatch_error): ?>
+          <p class="error">Hasła się nie zgadzają! Proszę spróbować ponownie.</p>
+        <?php endif; ?>
 
-        <?php
-            if ($_SERVER["REQUEST_METHOD"] == "POST") {
-                $password = $_POST["password"];
-                $repeatedPassword = $_POST["repeatedPassword"];
-            
-                if ($password !== $repeatedPassword) {
-                    echo '<p class="error">Hasła nie są takie same</p>';
-                }
-            }
-        ?>
-        
+        <?php if ($general_error): ?>
+          <p class="error">Proszę wypełnić wszystkie pola.</p>
+        <?php endif; ?>
+
+        <?php if ($registration_success): ?>
+          <p class="success">Rejestracja zakończona sukcesem!</p>
+        <?php endif; ?>
+
         <button type="submit" class="submit-btn">Zarejestruj</button>
       </form>
     </article>

@@ -1,16 +1,21 @@
 <?php
 session_start();
+include("connection.php");
+include("functions.php");
 
+$user_data = check_login($con);
 ?>
 <!DOCTYPE html>
 <html lang="pl">
   <?php include 'modules/header.php'; ?>
   <body>
     <?php 
-    if(isset($_SESSION['user_id']) && !empty($_SESSION['user_id'])){
+    if(isset($user_data)){
         include 'modules/nav-logged.php';
-      }else {include 'modules/nav.php';}
-    
+    }
+    else {
+        include 'modules/nav.php';
+    }
     
     ?>
     <hr />
