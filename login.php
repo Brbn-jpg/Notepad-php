@@ -1,32 +1,34 @@
 <?php
 session_start();
+include("connection.php");
 
-  include("connection.php");
-  include("functions.php");
-
-  if($_SERVER['REQUEST_METHOD'] == "POST"){
-    //stmh was posted
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_name = $_POST['login'];
     $password = $_POST['password'];
 
-    if(!empty($user_name) && !empty($password) && !is_numeric($user_name)){
-      $query = "select * from users where user_name = '$user_name' limit 1";
+    if (!empty($user_name) && !empty($password) && !is_numeric($user_name)) {
+        $stmt = $con->prepare("SELECT * FROM users WHERE user_name = ? LIMIT 1");
+        $stmt->bind_param("s", $user_name);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-      $result = mysqli_query($con, $query);
-      if($result){
-        if($result && mysqli_num_rows($result) > 0){
-          $user_data = mysqli_fetch_assoc($result);
-          if($user_data['password'] === $password){
-            $_SESSION['user_id'] = $user_data['user_id'];
-            header("Location: index.php");
-            die;  
-          }
+        if ($result && $result->num_rows > 0) {
+            $user_data = $result->fetch_assoc();
+
+            if (password_verify($password, $user_data['password'])) {
+                $_SESSION['user_id'] = $user_data['user_id'];
+                header("Location: index.php");
+                exit;
+            } else {
+                echo "Nieprawidłowe hasło!";
+            }
+        } else {
+            echo "Nie znaleziono użytkownika!";
         }
-      }
-      
     }
-  }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <?php include 'modules/header.php'; ?>

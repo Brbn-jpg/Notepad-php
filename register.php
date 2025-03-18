@@ -1,26 +1,33 @@
 <?php
 session_start();
+include("connection.php");
+include("functions.php");
 
-  include("connection.php");
-  include("functions.php");
-
-  if($_SERVER['REQUEST_METHOD'] == "POST"){
-    //stmh was posted
+if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_name = $_POST['login'];
     $password = $_POST['password'];
-    // $repeatedPassword = $_POST['repeatedPassword'];
-    
-    $user_id = random_num(20);
-    if(!empty($user_name) && !empty($password) && !empty($repeatedPassword) && !is_numeric($user_name)){
-      echo "siema";
-      $query = "insert into users (user_id,user_name,password) values ('$user_id','$user_name','$password')";
-      mysqli_query($con, $query);
-      header("Location: login.php");
-      exit();
+    $repeatedPassword = $_POST['repeatedPassword'] ?? null;
+
+    if (!empty($user_name) && !empty($password) && !empty($repeatedPassword) && !is_numeric($user_name)) {
+        if ($password !== $repeatedPassword) {
+            echo "Hasła nie są takie same!";
+            exit;
+        }
+
+        $user_id = random_num(20);
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $con->prepare("INSERT INTO users (user_id, user_name, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $user_id, $user_name, $hashed_password);
+        if ($stmt->execute()) {
+            echo "Rejestracja zakończona sukcesem!";
+        } else {
+            echo "Błąd podczas rejestracji!";
+        }
     }
-    
-  }
+}
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <?php include 'modules/header.php'; ?>
@@ -29,7 +36,7 @@ session_start();
     <hr />
     <article>
       <h2>Rejestracja</h2>
-      <form action = "register.php" method="POST">
+      <form action = "login.php" method="POST">
         <label for="login">Login</label>
         <input
           type="text"
