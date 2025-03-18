@@ -1,14 +1,20 @@
 <?php
 session_start();
 include("connection.php");
+<<<<<<< HEAD
 
 $login_error = $password_error = $password_mismatch_error = $registration_success = $general_error = false;
 
+=======
+include("functions.php");
+
+>>>>>>> 1ae6c9f8c77ed07e95568a1526d13a2d07de2283
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $user_name = $_POST['login'];
     $password = $_POST['password'];
     $repeatedPassword = $_POST['repeatedPassword'] ?? null;
 
+<<<<<<< HEAD
     if (empty($user_name) || empty($password) || empty($repeatedPassword)) {
         $general_error = true;
     }
@@ -39,6 +45,25 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
             }
         }
     }
+=======
+    if (!empty($user_name) && !empty($password) && !empty($repeatedPassword) && !is_numeric($user_name)) {
+        if ($password !== $repeatedPassword) {
+            echo "Hasła nie są takie same!";
+            exit;
+        }
+
+        $user_id = random_num(20);
+        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
+        $stmt = $con->prepare("INSERT INTO users (user_id, user_name, password) VALUES (?, ?, ?)");
+        $stmt->bind_param("sss", $user_id, $user_name, $hashed_password);
+        if ($stmt->execute()) {
+            echo "Rejestracja zakończona sukcesem!";
+        } else {
+            echo "Błąd podczas rejestracji!";
+        }
+    }
+>>>>>>> 1ae6c9f8c77ed07e95568a1526d13a2d07de2283
 }
 ?>
 
@@ -50,7 +75,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     <hr />
     <article>
       <h2>Rejestracja</h2>
+<<<<<<< HEAD
       <form method="POST">
+=======
+      <form action = "login.php" method="POST">
+>>>>>>> 1ae6c9f8c77ed07e95568a1526d13a2d07de2283
         <label for="login">Login</label>
         <input
           type="text"

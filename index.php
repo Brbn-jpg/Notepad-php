@@ -1,9 +1,12 @@
 <?php
 session_start();
 include("connection.php");
+<<<<<<< HEAD
 include("functions.php");
 
 $user_data = check_login($con);
+=======
+>>>>>>> 1ae6c9f8c77ed07e95568a1526d13a2d07de2283
 ?>
 <!DOCTYPE html>
 <html lang="pl">
