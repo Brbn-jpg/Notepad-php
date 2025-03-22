@@ -26,11 +26,10 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result && mysqli_num_rows($result) > 0) {
             $login_error = true;
         } else {
-            $user_id = uniqid('', true); 
             $hashed_password = password_hash($password, PASSWORD_DEFAULT); 
 
-            $stmt = $con->prepare("INSERT INTO users (user_id, user_name, password) VALUES (?, ?, ?)");
-            $stmt->bind_param("sss", $user_id, $user_name, $hashed_password);
+            $stmt = $con->prepare("INSERT INTO users (user_name, password) VALUES (?, ?)");
+            $stmt->bind_param("ss", $user_name, $hashed_password);
 
             if ($stmt->execute()) {
                 $registration_success = true;
@@ -47,7 +46,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <?php include 'modules/header.php'; ?>
   <body>
     <?php include 'modules/nav.php'; ?>
-    <hr />
     <article>
       <h2>Rejestracja</h2>
       <form method="POST">

@@ -19,7 +19,7 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
         if ($result->num_rows > 0) {
             $user_data = $result->fetch_assoc();
             if (password_verify($password, $user_data['password'])) {
-                $_SESSION['user_id'] = $user_data['user_id'];
+                $_SESSION['user_id'] = $user_data['id']; 
                 header("Location: index.php");
                 exit;
             } else {
@@ -37,7 +37,6 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
   <?php include 'modules/header.php'; ?>
   <body>
     <?php include 'modules/nav.php'; ?>
-    <hr />
     <article>
       <h2>Logowanie</h2>
       <form method="POST">

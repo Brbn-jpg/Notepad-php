@@ -18,15 +18,14 @@ $user_data = check_login($con);
     }
     
     ?>
-    <hr />
     <article>
     <h2>Witaj w notatniku</h2>
 
-      <?php if (isset($_SESSION['user_id'])): ?>
-        <p>👋 Witaj, jesteś zalogowany! Możesz korzystać z dodatkowych funkcji.</p>
-      <?php else: ?>
-        <p>🔑 Nie jesteś zalogowany. <a href="login.php">Zaloguj się</a>, aby uzyskać więcej możliwości.</p>
-      <?php endif; ?>
+    <?php if (isset($_SESSION['user_id'])): ?>
+      <p>👋 Witaj <?php echo htmlspecialchars($user_data['user_name']); ?>, jesteś zalogowany! Możesz korzystać z dodatkowych funkcji.</p>
+    <?php else: ?>
+      <p>🔑 Nie jesteś zalogowany. <a href="login.php">Zaloguj się</a>, aby uzyskać więcej możliwości.</p>
+    <?php endif; ?>
       
       <p>
         Notatnik to aplikacja, która pozwala na zapisywanie notatek. Możesz
