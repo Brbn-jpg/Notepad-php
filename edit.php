@@ -1,17 +1,17 @@
 <?php
 session_start();
-include("connection.php"); // Updated path
-include("functions.php"); // Updated path
+include("connection.php"); 
+include("functions.php"); 
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php"); // Updated path
+    header("Location: login.php"); 
     exit;
 }
 
 $user_data = check_login($con);
 
 if (!isset($_GET['id'])) {
-    header("Location: notes.php"); // Updated path
+    header("Location: notes.php"); 
     exit;
 }
 
@@ -25,7 +25,7 @@ $stmt->execute();
 $result = $stmt->get_result();
 
 if ($result->num_rows == 0) {
-    header("Location: notes.php"); // Updated path
+    header("Location: notes.php"); 
     exit;
 }
 
@@ -39,7 +39,7 @@ $note = $result->fetch_assoc();
     <?php include 'modules/nav-logged.php'; ?>
     <section class="add-note-section">
       <h2>Edytuj notatkę</h2>
-      <form method="POST" action="update_note.php"> <!-- Updated path -->
+      <form method="POST" action="update_note.php">
         <input type="hidden" name="note_id" value="<?php echo $note['id']; ?>">
         
         <label for="title" class="note-label">Tytuł notatki</label>

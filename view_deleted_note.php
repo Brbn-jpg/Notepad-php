@@ -18,7 +18,6 @@ if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
 $note_id = $_GET['id'];
 $user_id = $user_data['id'];
 
-// Pobierz dane notatki z tabeli history
 $query = "SELECT * FROM history WHERE id = ? AND user_id = ? LIMIT 1";
 $stmt = $con->prepare($query);
 $stmt->bind_param("ii", $note_id, $user_id);
