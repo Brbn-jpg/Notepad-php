@@ -33,13 +33,12 @@ git clone https://github.com/Brbn-jpg/Notepad-php.git
 3. Configure the database connection:
 - Open connection.php.
 - Update the database credentials if necessary:
-        ```php
+
         <?php
         $dbhost = "localhost";
         $dbuser = "root";
         $dbpass = "";
         $dbname = "notes_app";
-        ```
 4. Start the server:
 - Place the project folder in the htdocs directory of XAMPP.
 - Start Apache and MySQL from the XAMPP control panel.
