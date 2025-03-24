@@ -16,7 +16,7 @@ $result = mysqli_query($con, $query);
 ?>
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="page-auto">
   <?php include 'modules/header.php'; ?>
   <body>
     <?php include 'modules/nav-logged.php'; ?>

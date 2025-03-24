@@ -37,11 +37,11 @@ $note = $result->fetch_assoc();
   <body>
     <?php include 'modules/nav-logged.php'; ?>
     <section class="view-note-section">
-      <h2><?php echo htmlspecialchars($note['title']); ?></h2>
+      <h2 class="note-title"><?php echo htmlspecialchars($note['title']); ?></h2>
       <p class="note-content"><?php echo nl2br(htmlspecialchars($note['content'])); ?></p>
       <div class="note-meta">
-        <p><strong>Utworzono:</strong> <?php echo $note['created_at']; ?></p>
-        <p><strong>Ostatnia aktualizacja:</strong> <?php echo $note['updated_at']; ?></p>
+        <p class="info-note"><strong>Utworzono:</strong> <?php echo $note['created_at']; ?></p>
+        <p class="info-note"><strong>Ostatnia aktualizacja:</strong> <?php echo $note['updated_at']; ?></p>
       </div>
       <div class="actions">
         <a href="edit.php?id=<?php echo $note['id']; ?>" class="view-btn">Edytuj</a>
