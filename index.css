@@ -390,6 +390,10 @@ nav.open-mobile .icon-mobile-nav[name="close-outline"] {
   display: none;
 }
 
+.btn-mobile-nav {
+  display: none;
+}
+
 @media (max-width: 1200px) {
   h1 {
     font-size: 2.5rem;
