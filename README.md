@@ -1,6 +1,7 @@
 # Notepad PHP
 
 A simple PHP-based notepad application that allows users to create, edit, delete, and view notes. Users can also view the history of deleted notes.
+*Its in polish for now, we will implement english language in new version when we switch frontend to vue.js*
 
 ## Features
 
