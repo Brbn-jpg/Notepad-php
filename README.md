@@ -1,4 +1,5 @@
 <div align="center">
+
 # Notepad PHP
 
 A simple PHP-based notepad application that allows users to create, edit, delete, and view notes. Users can also view the history of deleted notes.
