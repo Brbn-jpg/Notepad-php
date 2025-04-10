@@ -1,7 +1,8 @@
 # Notepad PHP
 
 A simple PHP-based notepad application that allows users to create, edit, delete, and view notes. Users can also view the history of deleted notes.
-*Its in polish for now, we will implement english language in new version when we switch frontend to vue.js*
+
+---
 
 ## Features
 
@@ -13,6 +14,8 @@ A simple PHP-based notepad application that allows users to create, edit, delete
 - Multilingual support (English and Polish)
 - Mobile-friendly navigation
 
+---
+
 ## Prerequisites
 
 Before running this project, ensure you have the following installed:
@@ -22,6 +25,8 @@ Before running this project, ensure you have the following installed:
 - MySQL 5.7 or higher
 - Git (optional, for version control)
 - Node.js and npm (for frontend development)
+
+---
 
 ## Installation
 
@@ -78,10 +83,14 @@ Before running this project, ensure you have the following installed:
 - **Backend**: PHP-based API located in the `backend` directory.
 - **Database**: MySQL database schema defined in `database.sql`.
 
+---
+
 ## Authors
 
 - [Brbn](https://github.com/Brbn-jpg)
 - [Geratis](https://github.com/Geratis)
+
+---
 
 ## License
 
